@@ -1,43 +1,32 @@
-import sqlite3
 import random
 import os
-from pydantic import BaseModel
 from typing import Optional
+from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table
+from sqlalchemy.orm import sessionmaker, declarative_base
 from PIL import Image
 import streamlit as st
 
-class ImageSelection(BaseModel):
-    id: Optional[int] = None  
-    image1_path: str
-    image2_path: str
-    selected_image_path: str
+engine = create_engine("sqlite:///image_selection.db", echo=True)
+Session = sessionmaker(bind=engine)
 
-def init_db():
-    conn = sqlite3.connect("image_selection.db")
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS imageselection (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            image1_path TEXT NOT NULL,
-            image2_path TEXT NOT NULL,
-            selected_image_path TEXT NOT NULL
-        )
-    ''')
-    conn.commit()
-    conn.close()
+Base = declarative_base()
+
+class ImageSelection(Base):
+    __tablename__ = 'imageselection'
+    id = Column(Integer, primary_key=True)
+    image1_path = Column(String)
+    image2_path = Column(String)
+    selected_image_path = Column(String)
+
+Base.metadata.create_all(engine)
 
 def store_selection(image1_path: str, image2_path: str, selected_image_path: str):
-    selection = ImageSelection(image1_path=image1_path, image2_path=image2_path, selected_image_path=selected_image_path)
-    
-    conn = sqlite3.connect("image_selection.db")
-    cursor = conn.cursor()
-    cursor.execute('''
-        INSERT INTO imageselection (image1_path, image2_path, selected_image_path) VALUES (?, ?, ?)
-    ''', (selection.image1_path, selection.image2_path, selection.selected_image_path))
-    conn.commit()
-    conn.close()
+    with Session() as session:
+        selection = ImageSelection(image1_path=image1_path, image2_path=image2_path, selected_image_path=selected_image_path)
+        session.add(selection)
+        session.commit()
 
-init_db()
+st.title("Image Comparison")
 
 image_dir = "./1"  # Update this to your images directory
 
@@ -55,7 +44,6 @@ img2_path = os.path.join(image_dir, img2_file)
 image1 = Image.open(img1_path)
 image2 = Image.open(img2_path)
 
-st.title("Image Comparison")
 col1, col2 = st.columns(2)
 
 selected_image = None
@@ -74,3 +62,4 @@ with col2:
 
 if selected_image:
     store_selection(img1_path, img2_path, selected_image)
+

@@ -1,4 +1,4 @@
 streamlit
 pydantic
 pillow==10.4.0
-
+sqlalchemy
