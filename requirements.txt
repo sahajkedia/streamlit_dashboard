@@ -1,4 +1,5 @@
 streamlit
 pydantic
 pillow==10.4.0
-sqlite3
+pysqlite3
+
