@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "streamlit-dashboard"
+version = "0.1.0"
+description = "A dashboard for image selection"
+authors = ["Sahaj"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
+streamlit = "^1.18.1"  # Add Streamlit for the web app
+pillow = "^9.1.0"      # Add Pillow for image handling
+sqlalchemy = "^2.0.19" # Add SQLAlchemy for database operations
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
