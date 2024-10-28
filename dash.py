@@ -1,7 +1,7 @@
 import random
 import os
-from typing import Optional
-from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table
+# from typing import Optional
+from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 from PIL import Image
 import streamlit as st
@@ -10,13 +10,6 @@ engine = create_engine("sqlite:///image_selection.db", echo=True)
 Session = sessionmaker(bind=engine)
 
 Base = declarative_base()
-
-
-
-
-
-
-
 
 class ImageSelection(Base):
     __tablename__ = 'imageselection'
