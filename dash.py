@@ -18,7 +18,9 @@ class ImageSelection(Base):
     image2_path = Column(String)
     selected_image_path = Column(String)
 
+
 Base.metadata.create_all(engine)
+
 
 def store_selection(image1_path: str, image2_path: str, selected_image_path: str):
     with Session() as session:
