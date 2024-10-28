@@ -66,4 +66,3 @@ with col2:
 
 if selected_image:
     store_selection(img1_path, img2_path, selected_image)
-
