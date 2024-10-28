@@ -28,4 +28,4 @@ jobs:
 
       - name: Run Flake8 linter
         run: |
-          flake8 . --count --max-line-length=88 --show-source --statistics
+          flake8 . --count --show-source --statistics
