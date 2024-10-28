@@ -15,6 +15,9 @@ Base = declarative_base()
 
 
 
+
+
+
 class ImageSelection(Base):
     __tablename__ = 'imageselection'
     id = Column(Integer, primary_key=True)
