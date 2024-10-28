@@ -24,15 +24,22 @@ Base.metadata.create_all(engine)
 
 def store_selection(image1_path: str, image2_path: str, selected_image_path: str):
     with Session() as session:
-        selection = ImageSelection(image1_path=image1_path, image2_path=image2_path, selected_image_path=selected_image_path)
+        selection = ImageSelection(
+            image1_path=image1_path,
+            image2_path=image2_path,
+            selected_image_path=selected_image_path
+        )
         session.add(selection)
         session.commit()
+
 
 st.title("Image Comparison")
 
 image_dir = "./1"  # Update this to your images directory
 
-image_files = [f for f in os.listdir(image_dir) if os.path.isfile(os.path.join(image_dir, f)) and f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+image_files = [f for f in os.listdir(image_dir)
+               if os.path.isfile(os.path.join(image_dir, f))
+               and f.lower().endswith(('.png', '.jpg', '.jpeg'))]
 
 if len(image_files) >= 2:
     img1_file, img2_file = random.sample(image_files, 2)
